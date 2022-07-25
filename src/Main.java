@@ -20,22 +20,24 @@ public class Main {
             } else {
                 String[] parts = input.split(" ");
                 if (parts.length == 2) {
+                    int productNumber = 0;
+                    int productCount = 0;
                     try {
-                        int productNumber = Integer.parseInt(parts[0]) - 1; //номер продукта со сканера
-                        int productCount = Integer.parseInt(parts[1]); // кол-во продукта со сканера
-
-                        if (productNumber < products.length && productNumber >= 0 && productCount >= 0) {
-                            count[productNumber] += productCount;
-                            int currentPrice = prices[productNumber]; // цена продукта по номеру
-                            int sum = (productCount * currentPrice); // сумма покупки
-                            sumProducts += sum;
-                        } else {
-                            System.out.println("Введен некорректный номер продукта " +
-                                    "или отрицательное количество продуктов!");
-                        }
+                        productNumber = Integer.parseInt(parts[0]) - 1; //номер продукта со сканера
+                        productCount = Integer.parseInt(parts[1]); // кол-во продукта со сканера
                     } catch (NumberFormatException e) {
                         System.out.println("Введены нечисловые данные!");
                     }
+                    if (productNumber < products.length && productNumber >= 0 && productCount >= 0) {
+                        count[productNumber] += productCount;
+                        int currentPrice = prices[productNumber]; // цена продукта по номеру
+                        int sum = (productCount * currentPrice); // сумма покупки
+                        sumProducts += sum;
+                    } else {
+                        System.out.println("Введен некорректный номер продукта " +
+                                "или отрицательное количество продуктов!");
+                    }
+
 
                 } else {
                     System.out.println("Введены одна или более двух частей!");
