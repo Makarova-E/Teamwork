@@ -28,17 +28,27 @@ public class Main {
                     } catch (NumberFormatException e) {
                         System.out.println("Введены нечисловые данные!");
                     }
-                    if (productNumber < products.length && productNumber >= 0 && productCount >= 0) {
+
+                    if (productNumber < 0 | productNumber > products.length - 1) {
+                        System.out.println("Введен некорректный номер продукта");
+                        continue;
+                    }
+                    int currentPrice = prices[productNumber]; // цена продукта по номеру
+                    int sum = (productCount * currentPrice); // сумма покупки
+
+                    if (productCount == 0) {
+                        sumProducts = sumProducts - count[productNumber] * currentPrice;
+                        count[productNumber] = 0;
+                    } else if (productCount < 0) {
                         count[productNumber] += productCount;
-                        int currentPrice = prices[productNumber]; // цена продукта по номеру
-                        int sum = (productCount * currentPrice); // сумма покупки
+                        if (count[productNumber] < 0) {
+                            count[productNumber] = 0;
+                        }
                         sumProducts += sum;
                     } else {
-                        System.out.println("Введен некорректный номер продукта " +
-                                "или отрицательное количество продуктов!");
+                        count[productNumber] += productCount;
+                        sumProducts += sum;
                     }
-
-
                 } else {
                     System.out.println("Введены одна или более двух частей!");
                 }
