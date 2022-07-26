@@ -49,6 +49,8 @@ public class Main {
                     int currentPrice = prices[productNumber]; // цена продукта по номеру
                     int sum; // сумма покупки
                     int saleCount;
+                    int oldCount;
+                    int oldSum;
 
                     if (productCount == 0) {
                         sumProducts = sumProducts - count[productNumber] * currentPrice;
@@ -57,23 +59,25 @@ public class Main {
                         if (count[productNumber] == 0) {
                             continue;
                         } else {
-                            count[productNumber] += productCount; //
+                            count[productNumber] += productCount;
 
                             if (count[productNumber] < 0) {
                                 count[productNumber] = 0;
-                                //sumProducts = 0;
                                 continue;
                             }
 
                             if (sales[productNumber] == 1) {
                                 saleCount = count[productNumber] / 3;
                                 sale[productNumber] = saleCount;
-                                sum = (count[productNumber] - sale[productNumber]) * currentPrice; //сумма покупки
-                                sumProducts += sum;
+
+                                oldCount = count[productNumber] - productCount;
+                                oldSum = (oldCount - (oldCount / 3)) * currentPrice;
+                                sum = (count[productNumber] - (count[productNumber] / 3)) * currentPrice;
+                                sumProducts = sumProducts - oldSum + sum;
                             } else {
                                 saleCount = 0;
                                 sale[productNumber] = saleCount;
-                                sum = (productCount * currentPrice); // сумма покупки
+                                sum = (productCount * currentPrice);
                                 sumProducts += sum;
                             }
                         }
@@ -82,12 +86,16 @@ public class Main {
                         if (sales[productNumber] == 1) {
                             saleCount = count[productNumber] / 3;
                             sale[productNumber] = saleCount;
-                            sum = (count[productNumber] - sale[productNumber]) * currentPrice; //сумма покупки
-                            sumProducts += sum;
+
+                            oldCount = count[productNumber] - productCount;
+                            oldSum = (oldCount - (oldCount / 3)) * currentPrice;
+                            sum = (count[productNumber] - (count[productNumber] / 3)) * currentPrice;
+                            sumProducts = sumProducts - oldSum + sum;
+
                         } else {
                             saleCount = 0;
                             sale[productNumber] = saleCount;
-                            sum = (productCount * currentPrice); // сумма покупки
+                            sum = (productCount * currentPrice);
                             sumProducts += sum;
                         }
                     }
