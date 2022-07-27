@@ -41,23 +41,63 @@ public class Main {
                     } catch (NumberFormatException e) {
                         System.out.println("Введены нечисловые данные!");
                     }
-                    if (productNumber < products.length && productNumber >= 0 && productCount >= 0) {
-                        count[productNumber] += productCount;
-                        int currentPrice = prices[productNumber]; // цена продукта по номеру
-                        if (sales[productNumber] == 1) {
-                            int saleCount = productCount / 3;
-                            sale[productNumber] = saleCount;
-                            int sum = ((productCount - saleCount) * currentPrice); // сумма покупки
-                            sumProducts += sum;
+
+                    if (productNumber < 0 | productNumber > products.length - 1) {
+                        System.out.println("Введен некорректный номер продукта");
+                        continue;
+                    }
+                    int currentPrice = prices[productNumber]; // цена продукта по номеру
+                    int sum; // сумма покупки
+                    int saleCount;
+                    int oldCount;
+                    int oldSum;
+
+                    if (productCount == 0) {
+                        sumProducts = sumProducts - count[productNumber] * currentPrice;
+                        count[productNumber] = 0;
+                    } else if (productCount < 0) {
+                        if (count[productNumber] == 0) {
+                            continue;
                         } else {
-                            int saleCount = 0;
-                            sale[productNumber] = saleCount;
-                            int sum = (productCount * currentPrice); // сумма покупки
-                            sumProducts += sum;
+                            count[productNumber] += productCount;
+
+                            if (count[productNumber] < 0) {
+                                count[productNumber] = 0;
+                                continue;
+                            }
+
+                            if (sales[productNumber] == 1) {
+                                saleCount = count[productNumber] / 3;
+                                sale[productNumber] = saleCount;
+
+                                oldCount = count[productNumber] - productCount;
+                                oldSum = (oldCount - (oldCount / 3)) * currentPrice;
+                                sum = (count[productNumber] - (count[productNumber] / 3)) * currentPrice;
+                                sumProducts = sumProducts - oldSum + sum;
+                            } else {
+                                saleCount = 0;
+                                sale[productNumber] = saleCount;
+                                sum = (productCount * currentPrice);
+                                sumProducts += sum;
+                            }
                         }
                     } else {
-                        System.out.println("Введен некорректный номер продукта " +
-                                "или отрицательное количество продуктов!");
+                        count[productNumber] += productCount;
+                        if (sales[productNumber] == 1) {
+                            saleCount = count[productNumber] / 3;
+                            sale[productNumber] = saleCount;
+
+                            oldCount = count[productNumber] - productCount;
+                            oldSum = (oldCount - (oldCount / 3)) * currentPrice;
+                            sum = (count[productNumber] - (count[productNumber] / 3)) * currentPrice;
+                            sumProducts = sumProducts - oldSum + sum;
+
+                        } else {
+                            saleCount = 0;
+                            sale[productNumber] = saleCount;
+                            sum = (productCount * currentPrice);
+                            sumProducts += sum;
+                        }
                     }
                 } else {
                     System.out.println("Введены одна или более двух частей!");
